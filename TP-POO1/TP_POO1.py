@@ -8,7 +8,18 @@ def RegistrarMascota(Especies):
         if Continuar != "s":
             break
     Especies[Especie] = NombresMascotas
+
+def RegistrarPropietario(Propietarios):
+    Propietario = str(input("Ingrese su nombre : "))
+    while True:
+        DNI = int(input("Ingrese su DNI : "))
+        if DNI < 10000000 or DNI >99999999:
+            print("DNI invalido.\n")
+        else:
+            break
+    Propietarios[DNI] = Propietario
 def main():
+    Propietarios = {}
     Especies = {}
     while True:
         print("""\n\tMENU VETERINARIA
@@ -26,5 +37,8 @@ def main():
         if Opcion == 1:
             RegistrarMascota(Especies)
             print(Especies)
+        elif Opcion == 2:
+            RegistrarPropietario(Propietarios)
+            print(Propietarios)
 if __name__ == "__main__" :
     main()
