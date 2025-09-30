@@ -84,14 +84,14 @@ def main():
         7. Salir
         -------------------------------------
         """)
-    Opcion = int(input("Elija opcion : "))
-    if Opcion == 1:
-        RegistrarMascota(Especies)
-        RegistrarMascota(Especies,Propietarios)
-        print(Especies)
-    elif Opcion == 2:
-        RegistrarPropietario(Propietarios)
-        print(Propietarios)
+        Opcion = int(input("Elija opcion : "))
+        if Opcion == 1:
+            RegistrarMascota(Especies)
+            RegistrarMascota(Especies,Propietarios)
+            print(Especies)
+        elif Opcion == 2:
+            RegistrarPropietario(Propietarios)
+            print(Propietarios)
 
 if __name__ == "__main__" :
     main()
