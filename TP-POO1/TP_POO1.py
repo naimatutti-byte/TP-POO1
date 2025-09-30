@@ -1,3 +1,13 @@
+def RegistrarMascota(Especies):
+    NombresMascotas = []
+    Especie = str(input("Ingrese la especie de la mascota : "))
+    while True:
+        Mascota = str(input("Ingrese el nombre de la mascota : "))
+        NombresMascotas.append(Mascota)
+        Continuar = str(input("Desea agregar otra mascota de la misma especie (s/n) : "))
+        if Continuar != "s":
+            break
+    Especies[Especie] = NombresMascotas
 def RegistrarMascota(Especies,Propietarios):
     if not Propietarios:
         print("No hay propietarios registrados")
@@ -42,6 +52,7 @@ def RegistrarPropietario(Propietarios):
             print("DNI invalido.\n")
         else:
             break
+    Propietarios[DNI] = Propietario
     while True:
         NumeroTelefono = int(input("Ingrese el numero de telefono : "))
         if NumeroTelefono < 100000000 or NumeroTelefono > 999999999:
@@ -73,13 +84,14 @@ def main():
         7. Salir
         -------------------------------------
         """)
-        Opcion = int(input("Elija opcion : "))
-        if Opcion == 1:
-            RegistrarMascota(Especies,Propietarios)
-            print(Especies)
-        elif Opcion == 2:
-            RegistrarPropietario(Propietarios)
-            print(Propietarios)
+    Opcion = int(input("Elija opcion : "))
+    if Opcion == 1:
+        RegistrarMascota(Especies)
+        RegistrarMascota(Especies,Propietarios)
+        print(Especies)
+    elif Opcion == 2:
+        RegistrarPropietario(Propietarios)
+        print(Propietarios)
 
 if __name__ == "__main__" :
     main()
