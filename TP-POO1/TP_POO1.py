@@ -1,13 +1,4 @@
-def RegistrarMascota(Especies):
-    NombresMascotas = []
-    Especie = str(input("Ingrese la especie de la mascota : "))
-    while True:
-        Mascota = str(input("Ingrese el nombre de la mascota : "))
-        NombresMascotas.append(Mascota)
-        Continuar = str(input("Desea agregar otra mascota de la misma especie (s/n) : "))
-        if Continuar != "s":
-            break
-    Especies[Especie] = NombresMascotas
+
 def RegistrarMascota(Especies,Propietarios):
     if not Propietarios:
         print("No hay propietarios registrados")
@@ -69,9 +60,74 @@ def RegistrarPropietario(Propietarios):
             break
     Propietarios[DNI] = DatosPropietario
 
+def VerRegistros(Especies, Propietarios):
+    print("\n--- REGISTROS DE PROPIETARIOS ---")
+    if not Propietarios:
+        print("No hay propietarios registrados.")
+    else:
+        for DNI, Datos in Propietarios.items():
+            print(f"DNI: {DNI}, Nombre: {Datos[0]}, Telefono: {Datos[1]}, Correo: {Datos[2]}")
+
+    print("\n--- REGISTROS DE MASCOTAS ---")
+    if not Especies:
+        print("No hay mascotas registradas.")
+    else:
+        for ID, Datos in Especies.items():
+            print(f"ID: {ID}, Especie: {Datos[0]}, Nombre: {Datos[1]}, Edad: {Datos[2]}, Propietario: {Datos[3]}")
+
+def AgendarCita(ReservaCita, RegistroMascota):
+    DatosCita = []
+    Cita = str(input("Desea reservar una cita? (s/n): "))
+    if Cita.lower() == "s":
+        if not RegistroMascota:
+            print("Debe registrar primero una mascota.")
+            return
+        else:
+            while True:
+                ID = int(input("Ingrese el ID de la mascota para agendar cita: "))
+                if ID in RegistroMascota:
+                    Fecha = input("Ingrese la fecha de la cita (dd/mm/aaaa): ")
+                    Motivo = input("Ingrese el motivo de la cita: ")
+                    ReservaCita[ID] = [Fecha, Motivo]
+                    print("Cita agendada correctamente.")
+                    break
+                else:
+                    print("Mascota no encontrada. Intente de nuevo.")
+    else:
+        return
+
+def CancelarCita(ReservaCita):
+    if not ReservaCita:
+        print(" No hay citas agendadas.")
+        return
+    else:
+        ID = int(input("Ingrese el ID de la mascota para cancelar la cita: "))
+        if ID in ReservaCita:
+            del ReservaCita[ID]
+            print("Cita cancelada con exito.")
+        else:
+            print("No existe cita para esa mascota.")
+
+def VerHistorial(Especies):
+    if not Especies:
+        print("No hay mascotas registradas.")
+        return
+    
+    ID = int(input("Ingrese el ID de la mascota para ver su historial: "))
+    if ID in Especies:
+        Datos = Especies[ID]
+        print(f"\nHistorial de la Mascota ID {ID}:")
+        print(f"Especie: {Datos[0]}")
+        print(f"Nombre: {Datos[1]}")
+        print(f"Edad: {Datos[2]}")
+        print(f"Propietario: {Datos[3]}")
+    else:
+        print("Mascota no encontrada.")
+
 def main():
     Propietarios = {}
-    Especies = {}
+    ReservarCita = {}
+    RegistroMascota = {}
     while True:
         print("""\n\tMENU VETERINARIA
         -------------------------------------
@@ -86,12 +142,17 @@ def main():
         """)
         Opcion = int(input("Elija opcion : "))
         if Opcion == 1:
-            RegistrarMascota(Especies)
-            RegistrarMascota(Especies,Propietarios)
-            print(Especies)
+            RegistrarMascota(RegistroMascota,Propietarios)
         elif Opcion == 2:
             RegistrarPropietario(Propietarios)
-            print(Propietarios)
+        elif Opcion == 3:
+            AgendarCita(ReservarCita,RegistroMascota)
+        elif Opcion == 4:
+            CancelarCita(ReservarCita)
+        elif Opcion == 5:
+            VerHistorial(RegistroMascota)
+        elif Opcion == 6:
+            VerRegistros(RegistroMascota,Propietarios)
 
 if __name__ == "__main__" :
     main()
