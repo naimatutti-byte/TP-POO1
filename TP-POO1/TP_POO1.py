@@ -88,8 +88,12 @@ def AgendarCita(ReservaCita, RegistroMascota):
                 if ID in RegistroMascota:
                     Fecha = input("Ingrese la fecha de la cita (dd/mm/aaaa): ")
                     Motivo = input("Ingrese el motivo de la cita: ")
-                    ReservaCita[ID] = [Fecha, Motivo]
+                    if ID in ReservaCita:
+                        ReservaCita[ID].append([Fecha, Motivo])
+                    else:
+                        ReservaCita[ID] = [[Fecha, Motivo]]
                     print("Cita agendada correctamente.")
+                    break
                     break
                 else:
                     print("Mascota no encontrada. Intente de nuevo.")
@@ -124,6 +128,27 @@ def VerHistorial(Especies):
     else:
         print("Mascota no encontrada.")
 
+def VerReportes(ReservaCitas, RegistroMascota):
+    print("\n\tReportes de veterinaria")
+    print("\t--------------------------------")
+
+    if not ReservaCitas:
+        print("\tNo hay citas registradas.")
+        return
+
+    print("\tListado de Citas:")
+    for ID, ListaCitas in ReservaCitas.items():
+        if ID in RegistroMascota:
+            NombreMascota = RegistroMascota[ID][1]
+        else:
+            NombreMascota = "Desconocido"
+        print(f"\n\tMascota: {NombreMascota} (ID: {ID})")
+        print(f"\tTotal de citas: {len(ListaCitas)}")
+
+        for Fecha, Motivo in ListaCitas:
+            print(f"\t  - Fecha: {Fecha} | Motivo: {Motivo}")
+
+
 def main():
     Propietarios = {}
     ReservarCita = {}
@@ -137,7 +162,8 @@ def main():
         4. Cancelar Cita
         5. Ver Historial
         6. Ver Registros
-        7. Salir
+        7. Ver Reportes
+        8. Salir
         -------------------------------------
         """)
         Opcion = int(input("Elija opcion : "))
@@ -153,6 +179,12 @@ def main():
             VerHistorial(RegistroMascota)
         elif Opcion == 6:
             VerRegistros(RegistroMascota,Propietarios)
+        elif Opcion == 7:
+            VerReportes(ReservarCita,RegistroMascota)
+        elif Opcion == 8:
+            return
+        else:
+            print("Opcion no existe")
 
 if __name__ == "__main__" :
     main()
